@@ -1,10 +1,19 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from animals import get_all_animals, get_single_animal, create_animal
-from locations import get_all_locations, get_single_location
-from employees import get_all_employees, get_single_employee
-from customers import get_all_customers, get_single_customer
+from animals import get_all_animals
+from animals import get_single_animal
+from animals import create_animal
+from customers import get_all_customers
+from customers import get_single_customer
+from customers import create_customer
+from employees import get_all_employees
+from employees import get_single_employee
+from employees import create_employee
+from locations import get_all_locations
+from locations import get_single_location
+from locations import create_location
+
 # Here's a class. It inherits from another class.
 # For now, think of a class as a container for functions that
 # work together for a common purpose. In this case, that
@@ -106,12 +115,22 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         # Initialize new animal
         new_animal = None
+        new_customer = None
+        new_employee = None
+        new_location = None
+
 
         # Add a new animal to the list. Don't worry about
         # the orange squiggle, you'll define the create_animal
         # function next.
         if resource == "animals":
             new_animal = create_animal(post_body)
+        if resource == "customers":
+            new_customer = create_customer(post_body)
+        if resource == "employees":
+            new_employee = create_employee(post_body)
+        if resource == "locations":
+            new_location = create_location(post_body)
 
         # Encode the new animal and send in response
         self.wfile.write(f"{new_animal}".encode())
