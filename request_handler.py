@@ -10,14 +10,17 @@ from customers import get_all_customers
 from customers import get_single_customer
 from customers import create_customer
 from customers import delete_customer
+from customers import update_customer
 from employees import get_all_employees
 from employees import get_single_employee
 from employees import create_employee
 from employees import delete_employee
+from employees import update_employee
 from locations import get_all_locations
 from locations import get_single_location
 from locations import create_location
 from locations import delete_location
+from locations import update_location
 
 # Here's a class. It inherits from another class.
 # For now, think of a class as a container for functions that
@@ -193,9 +196,18 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Delete a single animal from the list
         if resource == "animals":
             update_animal(id, post_body)
-
         # Encode the new animal and send in response
+            
+        elif resource == "customers":
+            update_customer(id, post_body)
+        
+        elif resource == "employees":
+            update_employee(id, post_body)
+        
+        elif resource == "locations":
+            update_location(id, post_body)
         self.wfile.write("".encode())
+
 
 
 # This function is not inside the class. It is the starting
