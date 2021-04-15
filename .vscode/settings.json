@@ -7,5 +7,6 @@
             "database": "${workspaceFolder:python-server}/kennel.db"
         }
     ],
-    "sqltools.useNodeRuntime": true
+    "sqltools.useNodeRuntime": true,
+    "python.pythonPath": "/Users/calebjames/.local/share/virtualenvs/python-server-MIuq-X3U/bin/python"
 }
