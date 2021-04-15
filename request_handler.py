@@ -7,6 +7,7 @@ from animals import create_animal
 from animals import delete_animal
 from animals import update_animal
 from animals import get_animal_by_location
+from animals import get_animals_by_status
 from customers import get_all_customers
 from customers import get_single_customer
 from customers import create_customer
@@ -18,6 +19,7 @@ from employees import get_single_employee
 from employees import create_employee
 from employees import delete_employee
 from employees import update_employee
+from employees import get_employee_by_location
 from locations import get_all_locations
 from locations import get_single_location
 from locations import create_location
@@ -125,10 +127,16 @@ class HandleRequests(BaseHTTPRequestHandler):
             # query parameter that specified the customer
             # email as a filtering value?
             if key == "email" and resource == "customers":
-                response = get_customers_by_email(value)
+                response = f"{get_customers_by_email(value)}"
 
             elif key == "location_id" and resource == "animals":
-                response = get_animal_by_location(value)
+                response = f"{get_animal_by_location(value)}"
+            
+            elif key == "location_id" and resource == "employees":
+                response = f"{get_employee_by_location(value)}"
+            
+            elif key == "status" and resource == "animals":
+                response = f"{get_animals_by_status(value)}"
 
         self.wfile.write(response.encode())
 
@@ -233,6 +241,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         elif resource == "locations":
             update_location(id, post_body)
         self.wfile.write("".encode())
+
+
 
 
 
