@@ -1,1 +1,1 @@
-INSERT INTO `Animal` VALUES (null, "Daps", "Kennel", "Boxer", 2, 2);
+SELECT * FROM Animal ORDER BY id DESC;

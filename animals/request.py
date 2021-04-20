@@ -61,7 +61,7 @@ def get_all_animals():
         ON l.id = a.location_id
 
         JOIN Customer c
-        on c.id = a.customer_id
+        ON c.id = a.customer_id
         """)
 
         # Initialize an empty list to hold all animal representations
@@ -105,10 +105,22 @@ def get_single_animal(id):
             a.breed,
             a.status,
             a.location_id,
-            a.customer_id
-        FROM animal a
+            a.customer_id,
+            l.name location_name,
+            l.address location_address,
+            c.name customer_name,
+            c.address customer_address,
+            c.email customer_email,
+            c.password customer_password
+        FROM Animal a
+
+        JOIN Location l
+        ON l.id = a.location_id
+
+        JOIN Customer c
+        on c.id = a.customer_id
         WHERE a.id = ?
-        """, ( id, ))
+        """, (id, ))
 
         # Load the single result into memory
         data = db_cursor.fetchone()
@@ -118,7 +130,17 @@ def get_single_animal(id):
                             data['status'], data['location_id'],
                             data['customer_id'])
 
-        return json.dumps(animal.__dict__)
+        location = Location(data['location_id'], data['location_name'], data['location_address'])
+        customer = Customer(data['customer_id'], data['customer_name'], data['customer_address'], data['customer_email'], data['customer_password'])
+
+        # Add the dictionary representation of the location to the animal
+        animal.location = location.__dict__
+        animal.customer = customer.__dict__
+
+        # Add the dictionary representation of the animal to the list
+        # animals.append(animal.__dict__)
+
+    return json.dumps(animal.__dict__)
 
 def create_animal(new_animal):
     with sqlite3.connect("./kennel.db") as conn:
@@ -129,7 +151,7 @@ def create_animal(new_animal):
             ( name, breed, status, location_id, customer_id )
         VALUES
             ( ?, ?, ?, ?, ?);
-        """, (new_animal['name'], new_animal['species'],
+        """, (new_animal['name'], new_animal['breed'],
               new_animal['status'], new_animal['location_id'],
               new_animal['customer_id'], ))
 
