@@ -1,4 +1,1 @@
-SELECT
-    *
-
-FROM Location
+SELECT * FROM Animals
